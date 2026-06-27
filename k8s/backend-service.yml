@@ -1,0 +1,17 @@
+# kubernetes # https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: chatapp-namespace
+spec:
+  selector:
+    app: backend-pod
+  type: ClusterIP
+  ports:
+  - name: backend-pod
+    protocol: TCP
+    port: 5001
+    targetPort: 5001
+    # nodePort: 30001
+
