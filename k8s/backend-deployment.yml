@@ -28,8 +28,14 @@ spec:
         - name: PORT
           value: "5001"
 
+        # - name: MONGODB_URI
+        #   value: "mongodb://root:root@mongodb-service:27017/chatApp?authSource=admin&retryWrites=true&w=majority"
+
         - name: MONGODB_URI
-          value: "mongodb://root:root@mongodb-service:27017/chatApp?authSource=admin&retryWrites=true&w=majority"
+          valueFrom: 
+            secretKeyRef:
+              name: chatapp-secrets
+              key: mongouri
 
         - name: JWT_SECRET
           valueFrom:

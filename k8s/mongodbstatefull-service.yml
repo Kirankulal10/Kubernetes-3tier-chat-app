@@ -4,8 +4,9 @@ metadata:
   name:  mongodb-service
   namespace: chatapp-namespace
 spec:
+  clusterIP: None
   selector:
-    app:  mongodb-pod
+    app:  mongodb-statefullset  #relation with mongodb-statefullset i.e template
   ports:
   - name:  name-of-the-port
     port:  27017

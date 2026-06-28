@@ -1,19 +1,20 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: mongodb-deployment
+  name: mongodb-statefullset-pod
   namespace: chatapp-namespace
   labels:
-    app: mongodb-deployment
+    app: mongodb-statefullset
 spec:
+  serviceName: mongodb-service
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb-pod
+      app: mongodb-statefullset
   template:
     metadata:
       labels:
-        app: mongodb-pod
+        app: mongodb-statefullset  # has relation with staetfullset service 
     spec:
       containers:
       - name: chatapp-db
@@ -23,9 +24,16 @@ spec:
 
         env:
           - name: MONGO_INITDB_ROOT_USERNAME
-            value: root
+            valueFrom:
+              secretKeyRef:
+                name:  chatapp-secrets
+                key: mongodb_username
+
           - name: MONGO_INITDB_ROOT_PASSWORD
-            value: root
+            valueFrom:
+              secretKeyRef:
+                name:  chatapp-secrets
+                key: mongodb_password
 
         volumeMounts:
         - mountPath: /data/db
